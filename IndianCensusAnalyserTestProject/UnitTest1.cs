@@ -9,7 +9,8 @@ namespace IndianCensusAnalyserTestProject
     [TestClass]
     public class IndianCensusAnalyserTestClass
     {
-        Dictionary<string, CensusDTO> dict = new Dictionary<string, CensusDTO>();
+        Dictionary<string, CensusDTO> dict = new Dictionary<string, CensusDTO>();//For census
+        Dictionary<string, StateCodeDataDAO> stateDict = new Dictionary<string, StateCodeDataDAO>();//For state code
         CSVAdapterFactory factory = new CSVAdapterFactory();
         string indianPopulation = @"C:\Users\Ayushi\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFile\IndianStateCensusData.csv";
         string incorrectFile = @"C:\Users\Ayushi\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFile\IndianCensus.csv";
@@ -57,6 +58,57 @@ namespace IndianCensusAnalyserTestProject
         public void Given_State_CensusCSVFile_If_Incorrect_Return_IncorrectHeader_Exception(string file, string expected)
         {
             var result = Assert.ThrowsException<CensusAnalyserException>(() => factory.LoadCsvData(CensusAnalyser.Country.INDIA, file, "State,Population,AreaInSqKm,DensityPerSqKm"));
+            Assert.AreEqual(expected, result.Message);
+        }
+
+        //Test cases for state code
+        string indianStateCode = @"C:\Users\Ayushi\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFile\IndianStateCode.csv";
+        public const string incorrectStateFile = @"C:\Users\Ayushi\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFile\IndianState.csv";
+        public const string incorrectStateFileType = @"C:\Users\Ayushi\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFile\IndianCensus.txt";
+        public const string incorrectStateDelimeter = @"C:\Users\Ayushi\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFile\DelimeterIndiaStateCode.csv";
+        public const string incorrectStateHeader = @"C:\Users\Ayushi\source\repos\IndianStatesCensusAnalyserProblem\IndianStatesCensusAnalyserProblem\CSVFile\WrongHeaderStateCode.csv";
+
+        //TC_2.1-Ensure the no. of records matches
+        [TestMethod]
+        public void Given_StateCodeCSVFile_Should_Return_NoOfRecord()
+        {
+            stateDict = factory.LoadStateCodeCsvData(CensusAnalyser.Country.INDIA, indianStateCode, "SrNo,State Name,TIN,StateCode");
+            Assert.AreEqual(37, stateDict.Count);
+        }
+
+        //TC_2.2-Incorrect CSV file should return file not found exception
+        [TestMethod]
+        [DataRow(incorrectStateFile, "File Not Found")]
+        public void Given_State_StateCodeCSVFile_If_Incorrect_Returns_FileNotFound_Exception(string file, string expected)
+        {
+            var result = Assert.ThrowsException<CensusAnalyserException>(() => factory.LoadStateCodeCsvData(CensusAnalyser.Country.INDIA, file, "SrNo,State Name,TIN,StateCode"));
+            Assert.AreEqual(expected, result.Message);
+        }
+
+        //TC_2.3-Incorrect file type should return Invalid file type exception
+        [TestMethod]
+        [DataRow(incorrectStateFileType, "Invalid file type")]
+        public void Given_StateCodeCensusCSVFile_If_Incorrect_Returns_InvalidFileType_Exception(string file, string expected)
+        {
+            var result = Assert.ThrowsException<CensusAnalyserException>(() => factory.LoadStateCodeCsvData(CensusAnalyser.Country.INDIA, file, "SrNo,State Name,TIN,StateCode"));
+            Assert.AreEqual(expected, result.Message);
+        }
+
+        //TC_2.4-Incorrect Delimeter should return File contains wrong delimeter
+        [TestMethod]
+        [DataRow(incorrectStateDelimeter, "File Contains Wrong Delimeter")]
+        public void Given_StateCodeCensusCSVFile_If_Incorrect_Returns_WrongDelimeter_Exception(string file, string expected)
+        {
+            var result = Assert.ThrowsException<CensusAnalyserException>(() => factory.LoadStateCodeCsvData(CensusAnalyser.Country.INDIA, file, "SrNo,State Name,TIN,StateCode"));
+            Assert.AreEqual(expected, result.Message);
+        }
+
+        //TC_2.5-Incorrect header should return Incorrect header in Data 
+        [TestMethod]
+        [DataRow(incorrectStateHeader, "Incorrect header in Data")]
+        public void Given_StateCodeCensusCSVFile_If_Incorrect_Return_IncorrectHeader_Exception(string file, string expected)
+        {
+            var result = Assert.ThrowsException<CensusAnalyserException>(() => factory.LoadStateCodeCsvData(CensusAnalyser.Country.INDIA, file, "SrNo,State Name,TIN,StateCode"));
             Assert.AreEqual(expected, result.Message);
         }
     }

@@ -20,5 +20,17 @@ namespace IndianStatesCensusAnalyserProblem
             }
             return default;
         }
+
+        public Dictionary<string, StateCodeDataDAO> LoadStateCodeCsvData(CensusAnalyser.Country country, string csvFilePath, string dataHeaders)
+        {
+            switch (country)
+            {
+                case (CensusAnalyser.Country.INDIA):
+                    return new IndianCensusAdapter().LoadStateCodeCensusData(country, csvFilePath, dataHeaders);
+                    //case (CensusAnalyser.Country.US):
+                    //    return new USCensusAdapter().LoadCensusData(csvFilePath, dataHeaders);
+            }
+            return default;
+        }
     }
 }

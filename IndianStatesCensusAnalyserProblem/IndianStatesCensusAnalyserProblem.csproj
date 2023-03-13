@@ -73,6 +73,7 @@
     <Compile Include="CensusAnalyserException.cs" />
     <Compile Include="CSVAdapterFactory.cs" />
     <Compile Include="DAO\CensusDataDAO.cs" />
+    <Compile Include="DAO\StateCodeDataDAO.cs" />
     <Compile Include="DTO\CensusDTO.cs" />
     <Compile Include="IndianCensusAdapter.cs" />
     <Compile Include="Program.cs" />
@@ -81,7 +82,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="CSVFile\DelimeterIndiaStateCensusData.csv" />
+    <None Include="CSVFile\DelimeterIndiaStateCode.csv" />
     <None Include="CSVFile\IndianStateCensusData.csv" />
+    <None Include="CSVFile\IndianStateCode.csv" />
+    <None Include="CSVFile\WrongHeaderStateCode.csv" />
     <None Include="CSVFile\WrongIndiaStateCensusData.csv" />
     <None Include="packages.config" />
   </ItemGroup>

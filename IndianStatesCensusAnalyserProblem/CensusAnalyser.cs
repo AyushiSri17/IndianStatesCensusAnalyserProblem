@@ -19,5 +19,12 @@ namespace IndianStateCensusAnalyser
             datamap = new CSVAdapterFactory().LoadCsvData(country, csvFilePath, dataHeaders);
             return datamap;
         }
+
+        public Dictionary<string, StateCodeDataDAO> codeDatamap;
+        public Dictionary<string, StateCodeDataDAO> LoadStateCodeCensusData(Country country, string csvFilePath, string dataHeaders)
+        {
+            codeDatamap = new CSVAdapterFactory().LoadStateCodeCsvData(country, csvFilePath, dataHeaders);
+            return codeDatamap;
+        }
     }
 }
